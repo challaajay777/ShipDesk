@@ -37,6 +37,9 @@ if ($windeployqt) {
     Write-Warning "windeployqt not found; copy Qt runtime DLLs manually."
 }
 
+# Copy application icon to dist
+Copy-Item "$ProjectRoot\resources\icons\shipdesk.ico" "$DistDir\shipdesk.ico" -Force
+
 # Create ZIP distribution
 $ZipName = "ShipDesk-v$Version-windows-x64.zip"
 if (Test-Path $ZipName) { Remove-Item -Force $ZipName }
@@ -69,8 +72,8 @@ if ($CreateDesktopShortcut) {
             $Shortcut = $WshShell.CreateShortcut($ShortcutPath)
             $Shortcut.TargetPath = "$InstallDir\shipdesk.exe"
             $Shortcut.WorkingDirectory = "$InstallDir"
-            $Shortcut.IconLocation = "$InstallDir\shipdesk.exe,0"
-            $Shortcut.Description = "ShipDesk — Native Desktop Release Workspace"
+            $Shortcut.IconLocation = "$InstallDir\shipdesk.ico,0"
+            $Shortcut.Description = "ShipDesk - Native Desktop Release Workspace"
             $Shortcut.Save()
             Write-Output "Created Desktop Shortcut: $ShortcutPath"
         }
